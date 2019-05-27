@@ -58,6 +58,25 @@ public class IOTWifiModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void save(String ssid, Boolean bindNetwork, Callback callback) {
+        // connectSecure(ssid, "", false, bindNetwork, callback);
+
+        if (Build.VERSION.SDK_INT > 28) {
+            callback.invoke("Not supported on Android Q");
+            return;
+        }
+        if (!removeSSID(ssid)) {
+            callback.invoke(errorFromCode(FailureCodes.SYSTEM_ADDED_CONFIG_EXISTS));
+            return;
+        }
+
+        WifiConfiguration configuration = createWifiConfiguration(ssid, "", false);
+        int networkId = wifiManager.addNetwork(configuration);
+
+        callback.invoke();
+    }
+
+    @ReactMethod
     public void connectSecure(final String ssid, final String passphrase, final Boolean isWEP,
                               final Boolean bindNetwork, final Callback callback) {
         new Thread(new Runnable() {

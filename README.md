@@ -47,6 +47,10 @@ Wifi.getSSID((SSID) => {
   console.log(SSID);
 });
 
+Wifi.save("wifi-name", (error) => {
+  console.log(error ? 'error: ' + error : 'saved to wifi-name');
+});
+
 Wifi.connect("wifi-name", (error) => {
   console.log(error ? 'error: ' + error : 'connected to wifi-name');
 });

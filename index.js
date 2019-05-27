@@ -2,6 +2,16 @@
 
 import { NativeModules } from 'react-native';
 
+function save(...args) {
+  if (args.length < 2 || args.length > 3) {
+    throw new TypeError('invalid arguments');
+  } else if (args.length === 2) {
+    NativeModules.IOTWifi.save(args[0], false, args[1]);
+  } else {
+    NativeModules.IOTWifi.save(...args);
+  }
+}
+
 function connect(...args) {
   if (args.length < 2 || args.length > 3) {
     throw new TypeError('invalid arguments');
@@ -41,6 +51,7 @@ function isApiAvailable(...args) {
 }
 
 module.exports = {
+  save: save,
   connect: connect,
   connectSecure: connectSecure,
   getSSID: getSSID,
